@@ -58,5 +58,5 @@ class Qt_DRL:
 if __name__ == '__main__':
     group = get_group_dual()
     group.sample_test(test_model=[Qt_LIR, Qt_WNH, Qt_NV, Qt_HEUR, Qt_DRL],
-                      N=100,
-                      seed_file='seed/seed_test_100_2.json')
+                      N=5,
+                      seed_file='seed/seed_test_500_2.json')

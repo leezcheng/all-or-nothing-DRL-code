@@ -195,6 +195,7 @@ class Model(Para):
                     test_cost = self.test(qt, **cfg)
                     cost[m].append(test_cost)
         except Exception as e:
+            print(e)
             cost = None
         return cost
 
@@ -225,7 +226,7 @@ class Group:
             self.b = self._calc_b()
             self.sample, self.keys = self._calc_sample()
 
-    def sample_test(self, test_model, N=10, seed_file='seed/seed_test_100_2.json'):
+    def sample_test(self, test_model, N=10, seed_file='seed/seed_test_500_2.json'):
         model_name = [x.__name__ for x in test_model]
         sample_cost, sample_min, sample_max, sample_rank, sample_std = [], [], [], [], []
         seed_list_arr = None
@@ -316,11 +317,13 @@ def get_group_seasonal():
     os.makedirs('test', exist_ok=True)
     open('test/test_seasonal.log', 'w').close()
     open('test/test.stop', 'w').write('delete this file if you want to interrupt the process')
-    return Group(para)
+    gp = Group(para)
+    gp.sample = gp.sample[:1]
+    return gp
 
 
 if __name__ == '__main__':
     group = get_group_seasonal()
     group.sample_test(test_model=[Qt_LIR, Qt_WNH],
                       N=20,
-                      seed_file='seed/seed_test_100_2.json')
+                      seed_file='seed/seed_test_500_2.json')

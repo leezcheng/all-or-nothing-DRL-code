@@ -256,6 +256,7 @@ class Model(Para):
                 for m, qt in enumerate(qt_list):
                     cost[m].append(self.test(qt, **cfg))
         except Exception as e:
+            print(e)
             cost = None
         return cost
 
@@ -288,7 +289,7 @@ class Group:
             self.b = self._calc_b()
             self.sample, self.keys = self._calc_sample()
 
-    def sample_test(self, test_model, N=10, seed_file='seed/seed_test_100_2.json'):
+    def sample_test(self, test_model, N=10, seed_file='seed/seed_test_500_2.json'):
         model_name = [x.__name__ for x in test_model]
         seed_list_arr = None
         if os.path.exists(seed_file):
@@ -364,11 +365,13 @@ def get_group_dual():
     os.makedirs('test', exist_ok=True)
     open('test/test_dual.log', 'w').close()
     open('test/test.stop', 'w').write('delete this file if you want to interrupt the process')
-    return Group(para)
+    gp = Group(para)
+    gp.sample = gp.sample[:1]
+    return gp
 
 
 if __name__ == '__main__':
     group = get_group_dual()
     group.sample_test(test_model=[Qt_LIR, Qt_WNH, Qt_NV, Qt_HEUR],
                       N=20,
-                      seed_file='seed/seed_test_100_2.json')
+                      seed_file='seed/seed_test_500_2.json')
